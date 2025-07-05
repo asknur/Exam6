@@ -24,6 +24,45 @@ public class HospitalServer extends Lesson44Server {
         registerGet("/add-patient", this::showAddPatientForm);
         registerPost("/add", this::addPatient);
         registerPost("/delete", this::deletePatient);
+
+        registerGet("/edit-patient", this::showEditPatientForm);
+        registerPost("/edit", this::editPatient);
+    }
+
+    private void editPatient(HttpExchange exchange) throws IOException {
+        Map<String, String> form = parseFormData(exchange);
+        String id = form.get("id");
+        if (id == null || id.isEmpty()) {
+            renderError(exchange, "ID не указан");
+            return;
+        }
+        LocalDateTime time = LocalDateTime.parse(form.get("time"));
+        if (time.isBefore(LocalDateTime.now())) {
+            renderError(exchange, "Записи должна быть в будушем");
+            return;
+        }
+        schedule.updatePatient(id, form.get("type"), form.get("symptoms"), time);
+        redirect303(exchange, "/day?date=" + time.toLocalDate());
+    }
+
+
+    private void showEditPatientForm(HttpExchange exchange) throws IOException {
+        String id = getQueryParams(exchange).get("id");
+
+        if (id == null) {
+            renderError(exchange, "Нет ID");
+            return;
+        }
+        for (Patient p : schedule.getAllPatients()) {
+            if (p.getId().equals(id)) {
+                Map<String, Object> data = new HashMap<>();
+                data.put("patient", p);
+                data.put("date", p.getAppointmentTime().toLocalDate().toString());
+                renderTemplate(exchange, "edit-patient.ftlh", data);
+                return;
+            }
+        }
+        renderError(exchange, "Пациент не найден");
     }
 
     private void showCalendar(HttpExchange exchange) throws IOException {
