@@ -22,6 +22,10 @@
           <input type="hidden" name="date" value="${date}">
           <button>Удалить</button>
         </form>
+        <form action="/edit-patient" method="get" style="display:inline;">
+          <input type="hidden" name="id" value="${p.id}">
+          <button>Редактировать</button>
+        </form>
       </td>
     </tr>
   </#list>
