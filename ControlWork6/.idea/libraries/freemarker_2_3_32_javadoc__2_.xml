@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="freemarker-2.3.32-javadoc (2)">
-    <CLASSES />
-    <JAVADOC>
-      <root url="jar://$PROJECT_DIR$/vendor/freemarker-2.3.32-javadoc.jar!/" />
-    </JAVADOC>
-    <SOURCES />
-  </library>
-</component>
