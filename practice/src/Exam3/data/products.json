@@ -1,0 +1,37 @@
+[
+  {
+    "id": "C001",
+    "name": "Laptop",
+    "price": 1200.50,
+    "honorary_code": "",
+    "state": "in_stock"
+  },
+  {
+    "id": "C002",
+    "name": "Smartphone",
+    "price": 850.99,
+    "honorary_code": "",
+    "state": "for_sale"
+  },
+  {
+    "id": "C003",
+    "name": "Headphones",
+    "price": 150.75,
+    "honorary_code": "",
+    "state": "sold"
+  },
+  {
+    "id": "C004",
+    "name": "Monitor",
+    "price": 320.00,
+    "honorary_code": "",
+    "state": "in_stock"
+  },
+  {
+    "id": "C005",
+    "name": "Keyboard",
+    "price": 75.25,
+    "honorary_code": "",
+    "state": "for_sale"
+  }
+]
