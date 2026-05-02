@@ -1,0 +1,69 @@
+databaseChangeLog:
+  - changeSet:
+      id: 005
+      author: Askar
+      changes:
+        - createTable:
+            tableName: transactions
+            columns:
+              - column:
+                  name: id
+                  type: long
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: from_account_id
+                  type: long
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_tx_from_account
+                    references: accounts(id)
+              - column:
+                  name: to_account_id
+                  type: long
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_tx_to_account
+                    references: accounts(id)
+              - column:
+                  name: amount
+                  type: decimal(19,4)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: currency
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: converted_amount
+                  type: decimal(19,4)
+              - column:
+                  name: to_currency
+                  type: varchar(10)
+              - column:
+                  name: exchange_rate
+                  type: decimal(19,6)
+              - column:
+                  name: status
+                  type: varchar(20)
+                  defaultValue: "PENDING"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: requires_approval
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: processed_at
+                  type: timestamp
