@@ -1,0 +1,197 @@
+﻿databaseChangeLog:
+  - changeSet:
+      id: 001
+      author: Askar
+      changes:
+        - createTable:
+            tableName: usr
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: email
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: password
+                  type: varchar(250)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: full_name
+                  type: varchar(100)
+              - column:
+                  name: bio
+                  type: varchar(300)
+              - column:
+                  name: avatar
+                  type: varchar(255)
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: NOW()
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 002
+      author: Askar
+      changes:
+        - createTable:
+            tableName: follows
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: follower_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_follows_follower
+                    references: usr(id)
+                    deleteCascade: true
+              - column:
+                  name: following_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_follows_following
+                    references: usr(id)
+                    deleteCascade: true
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: NOW()
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 003
+      author: Askar
+      changes:
+        - createTable:
+            tableName: posts
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_posts_user
+                    references: usr(id)
+                    deleteCascade: true
+              - column:
+                  name: image
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: text
+              - column:
+                  name: likes_count
+                  type: int
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: NOW()
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 004
+      author: Askar
+      changes:
+        - createTable:
+            tableName: likes
+            columns:
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_likes_user
+                    references: usr(id)
+                    deleteCascade: true
+              - column:
+                  name: post_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_likes_post
+                    references: posts(id)
+                    deleteCascade: true
+        - addPrimaryKey:
+            tableName: likes
+            columnNames: user_id, post_id
+            constraintName: pk_likes
+
+  - changeSet:
+      id: 005
+      author: Askar
+      changes:
+        - createTable:
+            tableName: comments
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: post_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_comments_post
+                    references: posts(id)
+                    deleteCascade: true
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_comments_user
+                    references: usr(id)
+                    deleteCascade: true
+              - column:
+                  name: text
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: NOW()
+                  constraints:
+                    nullable: false
